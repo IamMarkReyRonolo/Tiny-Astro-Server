@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const lessonController = require("./LessonController");
-
+const testController = require("./testController");
 module.exports = {
 	getAllUsers,
 	getDetails,
@@ -44,16 +44,15 @@ async function createUser(req, res, next) {
 				firstName: req.body.firstName,
 				lastName: req.body.lastName,
 			},
-			gender: req.body.gender,
-			age: req.body.age,
+			learningLevel: "TBD",
 			email: req.body.email,
 			password: req.body.password,
-			checkpoint: { lessonid: null, chapter_number: null },
 		});
 
 		const result = await user.save();
 		req.user = result._id;
 		lessonController.generateLessons(req, res, next);
+		testController.generateTests(req, res, next);
 		console.log(result._id + "");
 		const token = jwt.sign(result._id + "", process.env.TOKEN_SECRET);
 		res.header("auth-token", token);
@@ -121,7 +120,7 @@ async function updateUser(req, res, next) {
 		try {
 			const updated = await User.findByIdAndUpdate(
 				req.user,
-				{ checkpoint: req.body.checkpoint },
+				{ learningLevel: req.body.learningLevel },
 				{ new: true }
 			);
 			if (updated) {

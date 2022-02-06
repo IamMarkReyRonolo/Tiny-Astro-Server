@@ -18,13 +18,9 @@ const userSchema = new mongoose.Schema(
 				required: [true, "Last Name is required"],
 			},
 		},
-		age: {
-			type: Number,
-			required: [true, "Age is Required"],
-		},
-		gender: {
+		learningLevel: {
 			type: String,
-			required: [true, "Gender is Required"],
+			required: [true, "Learning Level is required"],
 		},
 		email: {
 			type: String,
@@ -35,14 +31,6 @@ const userSchema = new mongoose.Schema(
 		password: {
 			type: String,
 			required: [true, "Password is required"],
-		},
-		checkpoint: {
-			lessonid: {
-				type: mongoose.Schema.Types.ObjectId,
-			},
-			chapter_number: {
-				type: Number,
-			},
 		},
 	},
 	{ timestamps: true }

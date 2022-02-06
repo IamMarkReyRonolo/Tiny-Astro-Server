@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 // SCHEMA
 
-const lessonSchema = new mongoose.Schema(
+const testSchema = new mongoose.Schema(
 	{
 		userid: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -10,15 +10,12 @@ const lessonSchema = new mongoose.Schema(
 		name: {
 			type: String,
 		},
-		lesson_number: {
-			type: Number,
-		},
 		status: {
 			type: String,
-			enum: ["Completed", "Locked", "In Progress"],
+			enum: ["Passed", "Locked", "Failed", "Not Yet"],
 			default: "Locked",
 		},
-		progress: {
+		score: {
 			type: Number,
 		},
 	},
@@ -29,6 +26,6 @@ const lessonSchema = new mongoose.Schema(
 
 // MODEL
 
-const Lesson = mongoose.model("lesson", lessonSchema);
+const Lesson = mongoose.model("test", testSchema);
 
 module.exports = Lesson;

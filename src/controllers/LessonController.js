@@ -1,11 +1,9 @@
 const Lesson = require("../models/lesson");
-
 module.exports = {
 	getAllLessons,
 	getSpecificLesson,
 	generateLessons,
 	updateLesson,
-	updateChapter,
 };
 
 async function getAllLessons(req, res, next) {
@@ -30,80 +28,19 @@ async function generateLessons(req, res, next) {
 	try {
 		const lesson1 = new Lesson({
 			userid: req.user,
-			name: "Intro To Polynomials",
+			name: "Solar System",
 			lesson_number: 1,
-			status: "In Progress",
-			chapter: [
-				{
-					chapter_number: 1,
-					chapter_name: "Definition and Degree of a Polynomial",
-					tutorial_status: "Not Yet",
-					exercise_status: "Not Yet",
-				},
-				{
-					chapter_number: 2,
-					chapter_name: "Terms and Types of Polynomials",
-				},
-				{
-					chapter_number: 3,
-					chapter_name: "Polynomial Equations and Functions",
-				},
-				{
-					chapter_number: 4,
-					chapter_name: "Final Test",
-				},
-			],
+			progress: 0,
 		});
 
 		const lesson2 = new Lesson({
 			userid: req.user,
-			name: "Polynomial Operations",
+			name: "Motions of the Earth",
 			lesson_number: 2,
-			chapter: [
-				{
-					chapter_number: 1,
-					chapter_name: "Addition of Polynomials",
-					tutorial_status: "Not Yet",
-					exercise_status: "Not Yet",
-				},
-				{
-					chapter_number: 2,
-					chapter_name: "Subtraction of Polynomials",
-				},
-				{
-					chapter_number: 3,
-					chapter_name: "Multiplication of Polynomials",
-				},
-				{
-					chapter_number: 4,
-					chapter_name: "Division of Polynomials",
-				},
-				{
-					chapter_number: 5,
-					chapter_name: "Final Test",
-				},
-			],
+			progress: 0,
 		});
 
-		const lesson3 = new Lesson({
-			userid: req.user,
-			name: "Solving Linear Polynomials",
-			lesson_number: 3,
-			chapter: [
-				{
-					chapter_number: 1,
-					chapter_name: "Solving Linear Polynomials",
-					tutorial_status: "Not Yet",
-					exercise_status: "Not Yet",
-				},
-				{
-					chapter_number: 2,
-					chapter_name: "Final Test",
-				},
-			],
-		});
-
-		const lessons = [lesson1, lesson2, lesson3];
+		const lessons = [lesson1, lesson2];
 		const docs = await Lesson.insertMany(lessons);
 	} catch (error) {
 		next(error);
@@ -114,38 +51,10 @@ async function updateLesson(req, res, next) {
 	try {
 		const updated = await Lesson.findOneAndUpdate(
 			{ _id: req.params.lessonid },
-			{ status: req.body.status },
+			{ status: req.body.status, progress: req.body.progress },
 			{ new: true }
 		);
 		if (updated) {
-			res.status(201).json({ message: "Update succesful", updated });
-		} else {
-			error = new Error("Not Found");
-			error.status = 404;
-			next(error);
-		}
-	} catch (error) {
-		next(error);
-	}
-}
-
-async function updateChapter(req, res, next) {
-	try {
-		const updated = await Lesson.updateOne(
-			{
-				_id: req.params.lessonid,
-				"chapter.chapter_number": req.params.chapnum,
-			},
-			{
-				$set: {
-					"chapter.$.tutorial_status": req.body.tutorial_status,
-					"chapter.$.exercise_status": req.body.exercise_status,
-					"chapter.$.exercise_score": req.body.exercise_score,
-				},
-			},
-			{ new: true }
-		);
-		if (updated.matchedCount != 0) {
 			res.status(201).json({ message: "Update succesful", updated });
 		} else {
 			error = new Error("Not Found");

@@ -10,11 +10,6 @@ router.get("/:lessonid", auth.authenticate, LessonController.getSpecificLesson);
 router.post("/generate", auth.authenticate, LessonController.generateLessons);
 
 // UPDATE
-router.patch(
-	"/:lessonid/:chapnum",
-	auth.authenticate,
-	LessonController.updateChapter
-);
 
 router.patch("/:lessonid", auth.authenticate, LessonController.updateLesson);
 

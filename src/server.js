@@ -20,10 +20,12 @@ connectToDatabase();
 const test = require("./routes/test-server");
 const userAPI = require("./routes/userAPI");
 const lessonAPI = require("./routes/lessonAPI");
+const testAPI = require("./routes/testAPI");
 app.use("/", test);
 
 app.use("/api/users", userAPI);
 app.use("/api/lessons", lessonAPI);
+app.use("/api/tests", testAPI);
 
 // ERROR HANDLING
 app.use(notFoundError);
