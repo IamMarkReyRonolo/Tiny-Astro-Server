@@ -18,7 +18,11 @@ async function getAllTest(req, res, next) {
 
 async function getSpecificTest(req, res, next) {
 	try {
-		const result = await Test.findById(req.params.testid).lean();
+		console.log(req.params.name);
+		const result = await Test.find({
+			userid: req.user,
+			name: req.params.name,
+		}).lean();
 		res.status(200).json({ count: result.length, test: result });
 	} catch (error) {
 		next(error);
@@ -67,7 +71,7 @@ async function generateTests(req, res, next) {
 async function updateTest(req, res, next) {
 	try {
 		const updated = await Test.findOneAndUpdate(
-			{ _id: req.params.testid },
+			{ userid: req.user, name: req.params.name },
 			{ status: req.body.status, score: req.body.score },
 			{ new: true }
 		);

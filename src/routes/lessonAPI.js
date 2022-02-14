@@ -11,6 +11,6 @@ router.post("/generate", auth.authenticate, LessonController.generateLessons);
 
 // UPDATE
 
-router.patch("/:lessonid", auth.authenticate, LessonController.updateLesson);
+router.patch("/:lessonName", auth.authenticate, LessonController.updateLesson);
 
 module.exports = router;

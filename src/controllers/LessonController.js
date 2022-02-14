@@ -49,8 +49,9 @@ async function generateLessons(req, res, next) {
 
 async function updateLesson(req, res, next) {
 	try {
+		console.log(req.params.lessonName);
 		const updated = await Lesson.findOneAndUpdate(
-			{ _id: req.params.lessonid },
+			{ userid: req.user, name: req.params.lessonName },
 			{ status: req.body.status, progress: req.body.progress },
 			{ new: true }
 		);
